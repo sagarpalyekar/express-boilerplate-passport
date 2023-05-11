@@ -1,0 +1,33 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "db:start": "mongod --config /opt/homebrew/etc/mongod.conf --fork",
+    "db:start-main": "mongod --config /opt/homebrew/etc/mongod.conf",
+    "db:shell": "mongosh",
+    "db:logs": "stdbuf -o0 tail -f -n 20 /opt/homebrew/var/log/mongodb/mongo.log | stdbuf -o0 jq -r -C '.msg |= sub(\"\n\";\"\") | .t.\"$date\"+\" \"+.c+\" [\"+.ctx+\"] \"+.msg, .attr | select(.!=null)' | sed 's/\\\\n/\\\n/g; s/\\\\t/\\\t/g'",
+    "db:logs-oneline": "tail -f /opt/homebrew/var/log/mongodb/mongo.log | jq --compact-output -r -C '.msg |= sub(\"\n\";\"\") | .t.\"$date\"+\" \"+.c+\" [\"+.ctx+\"] \"+.msg, .attr | select(.!=null)'",
+    "db:logs-basic": "tail -f -n 20 /opt/homebrew/var/log/mongodb/mongo.log",
+    "db:shutdown": "db.adminCommand({ shutdown: 1 })",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "^0.0.3",
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "jsonschema": "^1.4.1",
+    "jwt-simple": "^0.5.6",
+    "mongoose": "^7.1.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.22",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0"
+  }
+}
