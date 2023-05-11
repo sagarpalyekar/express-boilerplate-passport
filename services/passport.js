@@ -20,9 +20,9 @@ const localLogin = new LocalStrategy(
       // compare passwords - is `password` equal to user.password?
       return user.comparePassword(password, function (err, isMatch) {
         if (err) { return done(err); }
-        if (!isMatch) { return done(null, false); }
+        if (!isMatch) { done(null, false); }
 
-        return done(null, user);
+        done(null, user);
       });
     } catch (err) {
       return done(err);
@@ -42,7 +42,6 @@ const jwtLogin = new JwtStrategy(jwtOptions, async (payload, done) => {
   // If it does, call 'done' with that user
   // otherwise, call done without a user object
   try {
-    console.log('payload:', payload);
     const user = await User.findById(payload.sub).exec();
 
     if (user) {
